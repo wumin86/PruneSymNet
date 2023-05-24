@@ -10,7 +10,7 @@ def GetTestData(pointNum, variNum, codeStr):
     data_x[:, variNum] = 1
     # for i in range(pointNum):
     #     data_x.data[i][variNum] = 1
-    data_y = func((0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), data_x, codeStr)  # 因为这里的codeStr没有const所以常数列表不影响结果
+    data_y = func((0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), data_x, codeStr)
 
     data_y = data_y.unsqueeze(1)
     # testData = torch.cat([data_x, data_y], 1)
@@ -68,7 +68,7 @@ def testOneExpression(objectExpressName, input, target, variNum, candNum):
 ############################################################################################################################################
     batch_size = 128
     trainloader = torch.utils.data.DataLoader(MyDataset(input, target), batch_size, shuffle=True, num_workers=2)
-    model = initModel(variNum, constNum, hiddenLayerNum, calList, opNumList, op2NodeList, maskOpIDList, input, divFlag)  # 初始化模型，使得不出现nan
+    model = initModel(variNum, constNum, hiddenLayerNum, calList, opNumList, op2NodeList, maskOpIDList, input, divFlag)
 
     optimizer = optim.Adam(model.parameters(), lr=0.01)
     criterion = nn.MSELoss()

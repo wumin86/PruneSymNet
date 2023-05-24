@@ -40,7 +40,7 @@ def outPutSymRltAllWeightInn(variNum, symNum, hiddenNo, paramNums, indexSel, ind
     if 2 == paramNums[3]:
         symNameList = ["+", "-", "*", "/", "sin", "cos", "exp", "log", "square"]
     else:
-        symNameList = ["+", "-", "*", "sin", "cos", "exp", "log", "square"]# 注意没有除法
+        symNameList = ["+", "-", "*", "sin", "cos", "exp", "log", "square"]
     variNameListTmp = ["a", "b", "c", "d", "e"]
     variNameList = []
     for i in range(variNum):
@@ -78,12 +78,12 @@ def outPutSymRltAllWeightInn(variNum, symNum, hiddenNo, paramNums, indexSel, ind
                 else:
                     tmp3 = tmp3 + "*" + "weight"
 
-                if "/" == tmp2: #3: #除法 haha
+                if "/" == tmp2:
                     outStr = "(" + tmp1 + ")" + tmp2 + "(" + tmp3 + ")"
                 else:
                     outStr = tmp1 + tmp2 + tmp3
             else:
-                if "/" == symNameList[indexSel]: #3: #除法 haha
+                if "/" == symNameList[indexSel]:
                     outStr = "(" + variNameList[allIndex[indexSel, 0]] + "*" + "weight" + ")" + symNameList[indexSel] + "(" + variNameList[allIndex[indexSel, 1]] + "*" + "weight" + ")"
                 else:
                     outStr = variNameList[allIndex[indexSel, 0]] + "*" + "weight" + symNameList[indexSel] + variNameList[allIndex[indexSel, 1]] + "*" + "weight"
@@ -145,7 +145,7 @@ def outPutSymRltAllTrueWeightInn(variNum, symNum, hiddenNo, paramNums, indexSel,
     if 2 == paramNums[3]:
         symNameList = ["+", "-", "*", "/", "sin", "cos", "exp", "log", "square"]
     else:
-        symNameList = ["+", "-", "*", "sin", "cos", "exp", "log", "square"]# 注意没有除法
+        symNameList = ["+", "-", "*", "sin", "cos", "exp", "log", "square"]
 
     variNameListTmp = ["a", "b", "c", "d", "e"]
     variNameList = []
@@ -977,11 +977,10 @@ def SortTensorRand(inputValue, count, sortIndex, bSize):
 
         return outValue
 
-#去掉nan数据
 def PreProcessData1(inputValue, count, sortIndex):
     with torch.no_grad():
         dim1 = inputValue.size(1)
-        # 下面的代码是清理脏数据
+
         validNum = 0
         for i in range(count):
             if not torch.isnan(inputValue[i, sortIndex]):
@@ -1005,7 +1004,6 @@ def PreProcessData1(inputValue, count, sortIndex):
 #process nan
 def PreProcessData2(inputValue, count, sortIndex):
     with torch.no_grad():
-        # 下面的代码是清理脏数据
         for i in range(count):
             if torch.isnan(inputValue[i, sortIndex]):
                 inputValue[i, sortIndex] = 9999999999
@@ -1279,7 +1277,6 @@ def ProcessPruneInTrainBS(model, node2OpSList, op2NodeList, paramNums, variNum, 
             minLoss = bfgsError
             minSelLayerList = selLayerList
             minOutStr = codeStrBFGS #outStrTrueSimpleExpand
-        #表达式误差
         # if 0 < len(minConstList):
         #     test(str(outStrTrueSimpleExpand), variNum, input, target)
     # if -1 != minLoss:
@@ -1378,7 +1375,6 @@ def RecoverParam(model, modelBak):
         modelParamsList = list(model.parameters())
         paramLayerNum = len(modelParamsList)
         modelParamsListBak = list(modelBak.parameters())
-        # 恢复参数
         for i in range(paramLayerNum):
             modelParamsList[i][:] = modelParamsListBak[i][:]
 
@@ -1616,7 +1612,6 @@ def SolveByBFGS(data_xIn, data_yIn, codeStrIn):
             if minError < 1.0e-6 and -1 != minError: #-8
                 break
         if 0 < len(minConstList):
-            #把真实的权值写到表达式里
             for ii in range(len(constTable)):
                 i = len(constTable) - ii - 1 #
                 # if 0 == minConstList[i]:
